@@ -7,7 +7,7 @@ class Remaining extends Component {
         return(
             <div>
                 <p>
-                    <span id="remaining-count" onChange={this.props.update}>{this.props.itemsLeft}</span> items remain
+                    <span id="remaining-count">{this.props.value}</span> items remain
                 </p>
             </div>
             

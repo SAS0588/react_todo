@@ -33,7 +33,6 @@ class App extends Component {
         }
       ],
       todo: '',
-      remainingItems: 4
     }
   }
 
@@ -60,44 +59,26 @@ class App extends Component {
     const copyOfState = [...this.state.todos]; // make a shallow copy of the entire state
     copyOfState.splice(e.target.id - 1, 1, updatedTodo); // delete the item that was clicked from state copy and insert our changed copy
     this.setState(() => ({ todos: copyOfState })); // update the changed copy to state
-    //this.checkedHandler(copyOfState,e.target.id);
-    this.remainingItemsHandler()
-
-    //this.setState(state => ({todos: [...state.todos, updatedTodos]}))
-
-    //remove existing element and insert new element
   }
 
-/*   checkedHandler(todoObject, index){
-    console.log(todoObject[index - 1]);
-
-
-  } */
-
-
-  remainingItemsHandler(){
-    let remainingItemsCopy = 0;
-    const temporaryTodo = {...this.state.todos};
-    for (let todo in temporaryTodo){
-      if (!todo.complete){
-        remainingItemsCopy++;
+  //Version 2 should include reduce method
+  itemsRemainingHandler = () => {
+    let items = 0;
+    for (let todo of this.state.todos){
+      if (todo.complete === false){
+        items++;
       }
     }
-    this.setState({remainingItems: remainingItemsCopy})
+    return items;
   }
+
+  hideItemsHandler = (e) => {
+    console.log(e);
+  }
+
 
 
   render() {
-
-
-/*     const temporaryTodo = {...this.state.todos};
-    for (let todo in temporaryTodo){
-      if (!todo.complete){
-        remainingItemsCopy++;
-      } else {
-        remainingItemsCopy--;
-      }
-    } */
 
     return (
       <div className="App">
@@ -126,10 +107,11 @@ class App extends Component {
           onChange={this.handleInput} 
           onKeyDown={this.handleSubmit} 
         />
-        <Remaining itemsLeft={this.state.remainingItems} update={this.remainingItemsHandler}></Remaining>
+        {/* Start Remaining Count Component */}
+        <Remaining value={this.itemsRemainingHandler()}/>
         {/* End Remaining Count Component */}
         {/* Start Button Component */}
-        <button>Hide Completed Items</button>
+        <button onClick={this.hideItemsHandler}>Hide Completed Items</button>
         {/* End Button Component */}
 
       </div>
