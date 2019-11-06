@@ -33,6 +33,7 @@ class App extends Component {
         }
       ],
       todo: '',
+      isHidden: false
     }
   }
 
@@ -62,7 +63,7 @@ class App extends Component {
   }
 
   //Version 2 should include reduce method
-  itemsRemainingHandler = () => {
+/*   itemsRemainingHandler = () => {
     let items = 0;
     for (let todo of this.state.todos){
       if (todo.complete === false){
@@ -70,10 +71,18 @@ class App extends Component {
       }
     }
     return items;
+  } */
+
+  itemsRemainingHandler = () => {
+    let trash = this.state.todos.reduce((acc,currentValue) => {
+      return !currentValue.complete ? acc+1 : acc;
+    },0)
+    return trash;
   }
 
-  hideItemsHandler = (e) => {
-    console.log(e);
+  hideItemsHandler = () => {
+    this.setState(prevState => ({isHidden: !prevState.isHidden}))
+    
   }
 
 
@@ -84,17 +93,12 @@ class App extends Component {
       <div className="App">
         <Header />
         {/* To Do List Component */}
-        {this.state.todos.map((item, index) => (
-          this.state.todos[index].complete ?
+        {this.state.todos.map(item => (
             <ToDo
-              className="complete"
+              todo={item}
               id={item.id}
               todoClickedHandler={this.completeHandler}
-            >
-              {item.text}
-            </ToDo> : <ToDo
-              id={item.id}
-              todoClickedHandler={this.completeHandler}
+              todoDisplay={this.state.isHidden}
             >
               {item.text}
             </ToDo>

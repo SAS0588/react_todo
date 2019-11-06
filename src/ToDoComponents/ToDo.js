@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Todo.css';
 
 class ToDo extends Component {
 
@@ -13,15 +14,18 @@ class ToDo extends Component {
     render(){
         return(
             <div 
-                id={this.props.id}
+                id={this.props.todo.id}
+                className={this.props.todo.complete && this.props.todoDisplay ? 'hide':''}
                 onClick={this.props.todoClickedHandler}
             >
                 <input 
-                    className="todo-checkbox" 
+                    id={this.props.todo.id}
+                    className='todo-checkbox' 
                     type="checkbox"
+                    checked={this.props.todo.complete ? true : false}
                 />
                 <span 
-                    className={this.props.className} 
+                    className={`${this.props.todo.complete ? 'complete' : ''}`}
                     id={this.props.id}
                 >
                     {this.props.children}
